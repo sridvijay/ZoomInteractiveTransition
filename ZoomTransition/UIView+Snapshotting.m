@@ -30,11 +30,10 @@
 
 -(UIImage *)dt_takeSnapshot
 {
-    // Use pre iOS-7 snapshot API since we need to render views that are off-screen.
-    // iOS 7 snapshot API allows us to snapshot only things on screen
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    [self.layer renderInContext:ctx];
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0);
+    
+    [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:YES];
+    
     UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return snapshot;
